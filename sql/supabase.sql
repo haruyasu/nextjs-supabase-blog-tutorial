@@ -47,13 +47,13 @@ create trigger on_auth_user_created
 -- publicでstorageを作成する場合
 insert into storage.buckets (id, name, public) values ('blogs', 'blogs', true);
 create policy "画像は誰でも参照可能" on storage.objects for select using ( bucket_id = 'blogs' );
-create policy "画像はログインユーザーが追加" on storage.objects for insert with check ( bucket_id = 'blogs' AND role() = 'authenticated' );
-create policy "自身の画像を更新" on storage.objects for update with check ( bucket_id = 'blogs' AND uid() = owner );
-create policy "自身の画像を削除" on storage.objects for delete using ( bucket_id = 'blogs' AND uid() = owner );
+create policy "画像はログインユーザーが追加" on storage.objects for insert with check ( bucket_id = 'blogs' AND auth.role() = 'authenticated' );
+create policy "自身の画像を更新" on storage.objects for update with check ( bucket_id = 'blogs' AND auth.uid() = owner );
+create policy "自身の画像を削除" on storage.objects for delete using ( bucket_id = 'blogs' AND auth.uid() = owner );
 
 -- プロフィールのstorage作成
 insert into storage.buckets (id, name, public) values ('profile', 'profile', true);
 create policy "プロフィール画像は誰でも参照可能" on storage.objects for select using ( bucket_id = 'profile' );
-create policy "プロフィール画像はログインユーザーが追加" on storage.objects for insert with check ( bucket_id = 'profile' AND role() = 'authenticated' );
-create policy "自身のプロフィール画像を更新" on storage.objects for update with check ( bucket_id = 'profile' AND uid() = owner );
-create policy "自身のプロフィール画像を削除" on storage.objects for delete using ( bucket_id = 'profile' AND uid() = owner );
+create policy "プロフィール画像はログインユーザーが追加" on storage.objects for insert with check ( bucket_id = 'profile' AND auth.role() = 'authenticated' );
+create policy "自身のプロフィール画像を更新" on storage.objects for update with check ( bucket_id = 'profile' AND auth.uid() = owner );
+create policy "自身のプロフィール画像を削除" on storage.objects for delete using ( bucket_id = 'profile' AND auth.uid() = owner );
